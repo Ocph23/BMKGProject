@@ -6,10 +6,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Content;
+//using Plugin.FirebasePushNotification;
 
 namespace MobileBMKG.Droid
 {
-    [Activity(Label = "MobileBMKG", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "MobileBMKG", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, 
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -19,7 +22,17 @@ namespace MobileBMKG.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+           // FirebasePushNotificationManager.ProcessIntent(this, Intent);
+
             LoadApplication(new App());
         }
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+           
+          //  FirebasePushNotificationManager.ProcessIntent(this, intent);
+        }
+
+     
     }
 }

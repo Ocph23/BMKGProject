@@ -18,7 +18,7 @@ namespace WebService
             new Lazy<Broadcaster>(() => new Broadcaster());
         // We're going to broadcast to all clients a maximum of 25 times per second
         private readonly TimeSpan BroadcastInterval =
-            TimeSpan.FromSeconds(30);
+            TimeSpan.FromSeconds(60);
         private readonly IHubContext _hubContext;
         private Timer _broadcastLoop;
         private Gempa _model;
