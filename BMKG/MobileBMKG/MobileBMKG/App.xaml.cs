@@ -35,14 +35,10 @@ namespace MobileBMKG
         {
             SignalRConnection.StartListening();
 
-            Push.setListener(new MyPushListener());
-
-
-
-
 
             if (!AppCenter.Configured)
             {
+                
                 Push.PushNotificationReceived += (sender, e) =>
                 {
                     DependencyService.Get<IAlarmService>().PlaySound();
