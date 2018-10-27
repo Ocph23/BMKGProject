@@ -3,10 +3,12 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using MobileBMKG.Views;
 using MobileBMKG.Models;
-using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Push;
+using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Analytics;
+using MobileBMKG.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MobileBMKG
@@ -29,11 +31,30 @@ namespace MobileBMKG
             view.SetValues(e);
         }
 
-        protected override void OnStart()
+        protected  override void OnStart()
         {
-          //  SignalRConnection.StartListening();
+            SignalRConnection.StartListening();
 
-            AppCenter.Start("android=bdcdf782-fe9b-4198-a50f-552a56f3df06;", typeof(Analytics), typeof(Crashes),typeof(Push));
+            Push.setListener(new MyPushListener());
+
+
+
+
+
+            if (!AppCenter.Configured)
+            {
+                Push.PushNotificationReceived += (sender, e) =>
+                {
+                    DependencyService.Get<IAlarmService>().PlaySound();
+                };
+
+                
+            }
+
+
+
+
+            AppCenter.Start("android=bdcdf782-fe9b-4198-a50f-552a56f3df06", typeof(Push),typeof(Crashes), typeof(Distribute), typeof(Analytics));
         }
 
         protected override void OnSleep()

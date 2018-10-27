@@ -10,6 +10,10 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+
+            <Style TargetType="Button" x:Key="menuBtn">
+                <Setter Property="Margin" Value="0"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -8,16 +8,47 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <StackLayout>
-                <Label Text="{Binding Tanggal}"/>
-                <Label Text="{Binding Jam}"/>
-                <Label Text="{Binding Magnitude}"/>
-                <Label Text="{Binding Wilayah1}"/>
-                <Label Text="{Binding Kedalaman}"/>
-            </StackLayout>
-            <StackLayout Grid.Row="1">
-                
-            </StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout x:Name="peta"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout >
+                        <Label Text="Waktu"/>
+                        <Label Text="{Binding Tanggal}"/>
+                        <Label Text="{Binding Jam}"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1" >
+                        <Label Text="Magnutude"/>
+                        <Label Text="{Binding Magnitude}"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" >
+                        <Label Text="Kedalaman"/>
+                        <Label Text="{Binding Kedalaman}"/>
+                    </StackLayout>
+                </Grid>
+
+              
+            </Grid>
+            <Grid Padding="0" BackgroundColor="Red" Opacity="0.5" Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Text="Home" Margin="0" BackgroundColor="Transparent"/>
+                <Button Grid.Column="1" Text="DAFTAR" Margin="0" BackgroundColor="Transparent"/>
+                <Button Grid.Column="2" Text="News" Margin="0" BackgroundColor="Transparent"/>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

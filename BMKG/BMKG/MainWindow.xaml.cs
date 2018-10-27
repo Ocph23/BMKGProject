@@ -1,9 +1,11 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,7 +33,7 @@ namespace BMKG
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            Gettext();
+            GetCuaca();
             //StringBuilder sb = new StringBuilder();
             //string URLString = "http://data.bmkg.go.id/pesan.txt";
             //XmlTextReader reader = new XmlTextReader(URLString);
@@ -60,20 +62,89 @@ namespace BMKG
          
         }
 
-
-
-        private void Gettext()
+        class cuaca
         {
-            string URLString = "http://data.bmkg.go.id/pesan.txt";
-            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(URLString);
-
-            httpRequest.Timeout = 10000;     // 10 secs
-            httpRequest.UserAgent = "Code Sample Web Client";
-
-            HttpWebResponse webResponse = (HttpWebResponse)httpRequest.GetResponse();
-            StreamReader responseStream = new StreamReader(webResponse.GetResponseStream());
-
-            string content = responseStream.ReadToEnd();
+            public string Nama { get; internal set; }
+            public string Suhu { get; internal set; }
+            public string Kondisi { get; internal set; }
+            public string SuhuTerendah { get; internal set; }
+            public string Tertinggi { get; internal set; }
+            public string Kelembaban { get; internal set; }
         }
+
+        class DataCuaca
+        {
+           public List<cuaca> Datas { get; set; } = new List<cuaca>();
+            public string Tanggal { get; internal set; }
+        }
+
+        private void GetCuaca()
+        {
+            try
+            {
+                string URLString = "http://data.bmkg.go.id/pesan.txt";
+                string input = new WebClient().DownloadString(@"http://www.bmkg.go.id/cuaca/prakiraan-cuaca.bmkg?Kota=Jayapura&AreaID=501447&Prov=24");
+                var doc = new HtmlDocument();
+                doc.LoadHtml(input);
+                List<DataCuaca> listData = new List<DataCuaca>();
+
+
+                for (var i =2;i<=3;i++)
+                {
+
+                    var Data = new DataCuaca();
+                    HtmlNode[] nodes = doc.DocumentNode.SelectNodes("//div[@id='TabPaneCuaca"+i+"'] //div[@class='service-block clearfix']").ToArray();
+
+                    
+                    var tanggals = doc.DocumentNode.SelectNodes("//a[@href='#TabPaneCuaca" + i + "']").FirstOrDefault();
+                    Data.Tanggal = tanggals.InnerText;
+                    foreach (var item in nodes)
+                    {
+                        var har = item.Descendants("h2").Select(x => x.InnerText.Trim()).ToArray();
+                        var result = item.Descendants("div").Select(x => x.InnerText.Trim()).ToArray();
+                        var data = result[1].Split('\n').Select(x => x.Trim()).ToArray()[1].Split("&deg;C".ToArray()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                        var hari = new cuaca();
+                        hari.Nama = har[0];
+                        hari.Kondisi = result[0];
+                        hari.SuhuTerendah = data[0];
+                        hari.Tertinggi = data[1];
+                        hari.Kelembaban = data[2];
+                        hari.Suhu = har[1].Split("&deg;C".ToArray()).Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
+                        Data.Datas.Add(hari);
+
+                    }
+
+                    listData.Add(Data);
+                }
+
+                          
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+               
+            }
+        }
+    }
+
+
+    class cuaca
+    {
+        public string Nama { get; internal set; }
+        public string Suhu { get; internal set; }
+        public string Kondisi { get; internal set; }
+        public string SuhuTerendah { get; internal set; }
+        public string Tertinggi { get; internal set; }
+        public string Kelembaban { get; internal set; }
+    }
+
+    class DataCuaca
+    {
+        public List<cuaca> Datas { get; set; } = new List<cuaca>();
+        public string Tanggal { get; internal set; }
     }
 }

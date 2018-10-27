@@ -7,7 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Content;
-//using Plugin.FirebasePushNotification;
+using Microsoft.AppCenter.Push;
 
 namespace MobileBMKG.Droid
 {
@@ -29,10 +29,11 @@ namespace MobileBMKG.Droid
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
-           
-          //  FirebasePushNotificationManager.ProcessIntent(this, intent);
+
+            Push.CheckLaunchedFromNotification(this, intent);
+
         }
 
-     
+
     }
 }

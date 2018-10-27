@@ -17,7 +17,6 @@ namespace MobileBMKG
         private IHubProxy _proxy;
         private CancellationTokenSource reconnectTokenSource;
         private Queue<HubConnection> invokeQueue;
-
         public ConnectionState ConnectionState { get; private set; }
         public EventHandler<StateChange> OnConnectionStateChanged;
 
@@ -30,10 +29,6 @@ namespace MobileBMKG
             _connection.TraceLevel = TraceLevels.All;
             _connection.StateChanged += OnConnectionStateChangedHandler;
             _connection.Reconnected += OnReconnectedHandler;
-
-
-
-
 
             _proxy = _connection.CreateHubProxy("infoHub");
 
@@ -52,7 +47,7 @@ namespace MobileBMKG
                 }
                 catch (Exception ex)
                 {
-                    //MvxTrace.Error("[{0}] CONNECTION START ERROR: {1}", nameof(ChatService), ex.Message);
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
