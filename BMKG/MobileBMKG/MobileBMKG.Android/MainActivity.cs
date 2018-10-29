@@ -21,9 +21,11 @@ namespace MobileBMKG.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-           // FirebasePushNotificationManager.ProcessIntent(this, Intent);
 
+
+
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer:false);
             LoadApplication(new App());
         }
         protected override void OnNewIntent(Intent intent)

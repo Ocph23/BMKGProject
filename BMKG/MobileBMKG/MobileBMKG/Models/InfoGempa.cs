@@ -1,64 +1,183 @@
 ﻿using MobileBMKG.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MobileBMKG.Models
 {
-    public class InfoGempa 
+
+    [XmlRoot("Infogempa")]
+    public class InfoGempa
     {
-        public List<Gempa> Gempas { get; set; }
+        [XmlElement("gempa")]
+        public List<Gempa> Gempa { get; set; }
     }
 
-    public class Gempa : BaseViewModel
+    [XmlRoot("Infotsunami")]
+    public class Infotsunami
     {
-        private string tanggal;
-        private string wilayah;
-        private string wilayah1;
-        private string wilayah2;
-        private string wilayah3;
-        private string wilayah4;
-        private string wilayah5;
-        private string jam;
+        [XmlElement("gempa")]
+        public List<Gempa> Gempa { get; set; }
+
+
+    }
+
+    [XmlRoot("gempa")]
+    public class Gempa 
+    {
         private string lintang;
-        private point _point;
         private string bujur;
-        private string magnitude;
-        private string kedalaman;
+        private string _magnitude;
+        private string _potensi;
 
-        public string Tanggal { get => tanggal; set=>SetProperty(ref tanggal,value); }
+        [XmlElement("Tanggal")]
+        public string Tanggal { get; set; }
 
-        public string Jam { get => jam; set=>SetProperty(ref jam,value); }
+        [XmlElement("Jam")]
+        public string Jam { get; set; }
 
-        public string Lintang { get => lintang; set=>SetProperty(ref lintang,value); }
+        [XmlElement("Lintang")]
+        public string Lintang
+        {
+            get { return lintang; }
+            set
+            {
+                lintang = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var result = value.Split(' ');
+                    if (result.Count() == 2)
+                    {
+                        Latitude = Convert.ToDouble(result[0]);
+                        switch (result[1].ToUpper())
+                        {
+                            case "LS":
+                                Latitude = Latitude * -1;
+                                Console.WriteLine(Latitude);
+                                break;
 
-        public point Point { get => _point; set=>SetProperty(ref _point,value); }
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
 
-        public string Bujur { get => bujur; set=>SetProperty(ref bujur,value); }
+        }
 
-        public string Magnitude { get => magnitude; set=>SetProperty(ref magnitude,value); }
+        public point Point { get; set; }
 
-        public string Kedalaman { get => kedalaman; set=>SetProperty(ref kedalaman,value); }
+        [XmlElement("Bujur")]
+        public string Bujur
+        {
+            get { return bujur; }
+            set
+            {
+                bujur = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var result = value.Split(' ');
+                    if (result.Count() == 2)
+                    {
+                        Longitude = Convert.ToDouble(result[0]);
+                        switch (result[1].ToUpper())
+                        {
+                            case "BB":
+                                Longitude = Longitude * -1;
+                                break;
 
-        public string Wilayah { get => wilayah; set=>SetProperty(ref wilayah, value); }
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
 
-        public string Wilayah1 { get => wilayah1; set=>SetProperty(ref wilayah1, value); }
 
-        public string Wilayah2 { get => wilayah2; set=>SetProperty(ref wilayah2, value); }
+        }
 
-        public string Wilayah3 { get => wilayah3; set=>SetProperty(ref wilayah3, value); }
+        [XmlElement("Magnitude")]
+        public string Magnitude {
+            get;set;
+        }
 
-        public string Wilayah4 { get => wilayah4; set=>SetProperty(ref wilayah4, value); }
+        [XmlElement("Kedalaman")]
+        public string Kedalaman { get; set; }
 
-        public string Wilayah5 { get => wilayah5; set=>SetProperty(ref wilayah5, value); }
 
-        public string LastUpdatedBy { get => tanggal; set=>SetProperty(ref tanggal,value); }
+        [XmlElement("Dirasakan")]
+        public string Dirasakan { get; set; }
+
+        [XmlElement("Wilayah")]
+        public string Wilayah { get; set; }
+
+        [XmlElement("Wilayah1")]
+        public string Wilayah1 { get; set; }
+
+        [XmlElement("Wilayah2")]
+        public string Wilayah2 { get; set; }
+
+        [XmlElement("Wilayah3")]
+        public string Wilayah3 { get; set; }
+
+        [XmlElement("Wilayah4")]
+        public string Wilayah4 { get; set; }
+
+        [XmlElement("Wilayah5")]
+        public string Wilayah5 { get; set; }
+
+        [XmlElement("Linkdetail")]
+        public string Linkdetail { get; set; }
+
+        [XmlElement("NamaPeta")]
+        public string NamaPeta { get; set; }
+
+        [XmlElement("Posisi")]
+        public string Posisi { get; set; }
+
+        [XmlElement("Keterangan")]
+        public string[] Keterangan { get; set; }
+
+        [XmlElement("_symbol")]
+        public string Symbol { get; set; }
+
+        [XmlElement("Potensi")]
+        public string Potensi {
+            get { return _potensi; }
+            set
+            {
+                if (value.Contains("tidak"))
+                    _potensi = "No";
+                else
+                    _potensi = "Tidak";
+
+            }
+
+        }
+
+
+        [XmlElement("Area")]
+        public string Area { get; set; }
+
+
+        public string LastUpdatedBy { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 
-    public class point:BaseViewModel
+
+
+
+
+
+    [XmlRoot("point")]
+    public class point
     {
-        private string _cordinat;
-
-        public string coordinates { get => _cordinat; set=>SetProperty(ref _cordinat,value); }
+        public string coordinates { get; set; }
     }
+
+
 }

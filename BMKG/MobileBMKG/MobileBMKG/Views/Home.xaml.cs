@@ -23,21 +23,43 @@ namespace MobileBMKG.Views
 	}
 
 
-    public class HomeViewModel : Gempa
+    public class HomeViewModel : BaseViewModel
     {
-        public void SetValues(Gempa value)
+        private Gempa data;
+
+        public Gempa DataGempa
         {
-            this.Kedalaman = value.Kedalaman;
-            this.Bujur = value.Bujur;
-            this.Tanggal = value.Tanggal;
-            this.Jam = value.Jam;
-            this.Magnitude = value.Magnitude;
-            this.Wilayah1 = value.Wilayah1;
-            playSound();
+            get { return data; }
+            set {SetProperty(ref data ,value); }
         }
 
+        public HomeViewModel()
+        {
+            LoadData();
+        }
 
+        private async void LoadData()
+        {
+            try
+            {
+                if (IsBusy)
+                    return;
 
+                var data = await DataStore.GetAutoGempaAsync();
+                if (data != null)
+                    DataGempa = data;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void SetValues(Gempa value)
+        {
+            DataGempa = value;
+            playSound();
+        }
 
         public  void playSound()
         {

@@ -12,7 +12,7 @@ namespace MobileBMKG.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        //public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IDataStore<Gempa> DataStore => DependencyService.Get<IDataStore<Gempa>>() ?? new AutoGempaServices();
 
         bool isBusy = false;
         public bool IsBusy

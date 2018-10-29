@@ -15,40 +15,31 @@ namespace MobileBMKG
 {
     public partial class App : Application
     {
-        private SignalRClientConnection SignalRConnection;
+       // private SignalRClientConnection SignalRConnection;
         public App()
         {
             InitializeComponent();
-            SignalRConnection = new SignalRClientConnection();
-            SignalRConnection.NewReceived += SignalRConnection_NewReceived;
-            
-            MainPage = new Home();
+          //  SignalRConnection = new SignalRClientConnection();
+           // SignalRConnection.NewReceived += SignalRConnection_NewReceived;
+            MainPage = new MainPage();
         }
 
-        private void SignalRConnection_NewReceived(object sender, Gempa e)
-        {
-            var view = MainPage.BindingContext as HomeViewModel;
-            view.SetValues(e);
-        }
+        //private void SignalRConnection_NewReceived(object sender, Gempa e)
+        //{
+        //    var view = MainPage.BindingContext as HomeViewModel;
+        //    view.SetValues(e);
+        //}
 
         protected  override void OnStart()
         {
-            SignalRConnection.StartListening();
-
-
+           /// SignalRConnection.StartListening();
             if (!AppCenter.Configured)
             {
-                
-                Push.PushNotificationReceived += (sender, e) =>
+                Push.PushNotificationReceived += (s, e) =>
                 {
                     DependencyService.Get<IAlarmService>().PlaySound();
                 };
-
-                
             }
-
-
-
 
             AppCenter.Start("android=bdcdf782-fe9b-4198-a50f-552a56f3df06", typeof(Push),typeof(Crashes), typeof(Distribute), typeof(Analytics));
         }
