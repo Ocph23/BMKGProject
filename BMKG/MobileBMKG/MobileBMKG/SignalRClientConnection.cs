@@ -10,9 +10,9 @@
 //namespace MobileBMKG
 //{
 
-//  public  class SignalRClientConnection
+//    public class SignalRClientConnection
 //    {
-//        private readonly string Url = Helper.URL+"/signalr";
+//        private readonly string Url = Helper.URL + "/signalr";
 //        private HubConnection _connection;
 //        private IHubProxy _proxy;
 //        private CancellationTokenSource reconnectTokenSource;
@@ -25,7 +25,7 @@
 //        public async Task StartListening()
 //        {
 //            _connection = new HubConnection(Url);
-//           // _connection.TraceWriter = tracer;
+//            // _connection.TraceWriter = tracer;
 //            _connection.TraceLevel = TraceLevels.All;
 //            _connection.StateChanged += OnConnectionStateChangedHandler;
 //            _connection.Reconnected += OnReconnectedHandler;
@@ -54,13 +54,13 @@
 
 //        private void OnReconnectedHandler()
 //        {
-//          //  Task.Factory.StartNew(async () => await invokeQueue.ProcessQueue());
+//            //  Task.Factory.StartNew(async () => await invokeQueue.ProcessQueue());
 //        }
 
 //        private void OnConnectionStateChangedHandler(StateChange change)
 //        {
 //            this.ConnectionState = change.NewState;
-//            OnConnectionStateChanged?.Invoke(this,change);
+//            OnConnectionStateChanged?.Invoke(this, change);
 
 //            switch (change.NewState)
 //            {

@@ -61,7 +61,7 @@ namespace MobileBMKG.Services
                 return Task.FromResult(last);
                 //   return resut;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return null;
@@ -82,7 +82,7 @@ namespace MobileBMKG.Services
                 xmlReader = new XmlTextReader(strReader);
                 obj = serializer.Deserialize(xmlReader);
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 //Handle Exception Code
             }

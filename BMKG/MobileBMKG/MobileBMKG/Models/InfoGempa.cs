@@ -30,7 +30,6 @@ namespace MobileBMKG.Models
     {
         private string lintang;
         private string bujur;
-        private string _magnitude;
         private string _potensi;
 
         [XmlElement("Tanggal")]

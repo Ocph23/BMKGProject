@@ -49,9 +49,9 @@ namespace MobileBMKG.Views
                 if (data != null)
                     DataGempa = data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw;
+               
             }
         }
 
