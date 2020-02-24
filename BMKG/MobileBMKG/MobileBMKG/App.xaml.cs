@@ -38,39 +38,31 @@ namespace MobileBMKG
 
         protected  override void OnStart()
         {
-            //if (!AppCenter.Configured)
-            //{
-            //    //Push.PushNotificationReceived += (sender, e) =>
-            //    //{
-            //    //    // Add the notification message and title to the message
-            //    //    //if (e.Message != null)
-            //    //    //{
+             AppCenter.Start("bdcdf782-fe9b-4198-a50f-552a56f3df06", typeof(Push));
+            AppCenter.Start("android=bdcdf782-fe9b-4198-a50f-552a56f3df06", typeof(Push),typeof(Crashes), typeof(Analytics));
+             if (!AppCenter.Configured)
+             {
+                  Push.PushNotificationReceived += (sender, e) =>
+                  {
+                       if (e.Message != null)
+                       {
 
-            //    //    //    var message = new MessagingCenterAlert() { Message = e.Message, Title = e.Title, Cancel = "OK" };
-            //    //    //    MessagingCenter.Send(message, "message");
-            //    //    //}
-            //    //    //var a = e.CustomData;
-            //    //    //var summary = a.ToString();
+                           var message = new MessagingCenterAlert() { Message = e.Message, Title = e.Title, Cancel = "OK" };
+                           MessagingCenter.Send(message, "message");
+                       }
+                       var a = e.CustomData;
+                       var summary = a.ToString();
+                       if (e.CustomData != null)
+                       {
+                           summary += "\n\tCustom data:\n";
+                           foreach (var key in e.CustomData.Keys)
+                           {
+                               summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                           }
+                       }
+                  };
+            }
 
-            //    //    //// If there is custom data associated with the notification,
-            //    //    //// print the entries
-            //    //    //if (e.CustomData != null)
-            //    //    //{
-            //    //    //    summary += "\n\tCustom data:\n";
-            //    //    //    foreach (var key in e.CustomData.Keys)
-            //    //    //    {
-            //    //    //        summary += $"\t\t{key} : {e.CustomData[key]}\n";
-            //    //    //    }
-            //    //    //}
-
-            //    //    //// Send the notification summary to debug output
-            //    //    //System.Diagnostics.Debug.WriteLine(summary);
-
-
-            //    //};
-            //}
-            AppCenter.Start("058d09ee-6088-4bdc-83b0-f5b6dd9cda79", typeof(Push));
-           // AppCenter.Start("android=bdcdf782-fe9b-4198-a50f-552a56f3df06", typeof(Push),typeof(Crashes), typeof(Analytics));
         }
 
         protected override void OnSleep()

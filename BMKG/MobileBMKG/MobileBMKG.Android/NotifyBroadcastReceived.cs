@@ -18,12 +18,23 @@ namespace MobileBMKG.Droid
     [BroadcastReceiver]
     public class NotifyBroadcastReceived : BroadcastReceiver
     {
+        global::Android.Net.Uri soundUri = global::Android.Net.Uri.Parse("android.resource://" + "com.ocph23.bmkg" + "/raw/tsunami");
         public override void OnReceive(Context context, Intent intent)
         {
-
+            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            try
+            {
+                Ringtone r = RingtoneManager.GetRingtone(MainActivity.Instance, soundUri);
+                r.Play();
+            }
+            catch (Exception e)
+            {
+                Log.Debug("Service", e.Data.ToString());
+            }
             //Toast.MakeText(context, "Received intent!", ToastLength.Long).Show();
             // displayAlert(context, intent);
-            Handler mHandler = new Handler();
+
+         /*   Handler mHandler = new Handler();
             LayoutInflater inflater = context.GetSystemService(Context.LayoutInflaterService) as LayoutInflater;
             var toas = new Toast(context);
             toas.SetGravity(GravityFlags.Center, 0, 0);
@@ -32,17 +43,15 @@ namespace MobileBMKG.Droid
             TextView txt = (TextView)toas.View.FindViewById(Resource.Id.textView1);
             txt.Text = "ini adalah Text";
             toas.Show();
-            displayAlert(context, intent);
+            //displayAlert(context, intent);*/
         }
 
 
-        global::Android.Net.Uri soundUri = global::Android.Net.Uri.Parse("android.resource://" + "com.ocph23.bmkg" + "/raw/alarm");
+       
         private async void displayAlert(Context context, Intent intentx)
         {
-                
 
-
-            var bigStyle = new NotificationCompat.BigTextStyle().BigText("Unlike the other notification styles, MediaStyle allows you to also modify the collapsed-size content view by specifying three action buttons that should also appear in the collapsed view. To do so, provide the action button indices to ");
+            var bigStyle = new NotificationCompat.BigTextStyle().BigText("Telah Terjadi Tsunami ");
             // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
             const int pendingIntentId = 0;
             // PendingIntent pendingIntent =  PendingIntent.GetActivity(this, pendingIntentId, intent, PendingIntentFlags.OneShot);
@@ -50,7 +59,7 @@ namespace MobileBMKG.Droid
             // Instantiate the builder and set notification elements, including pending intent:
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                 //  .SetContentIntent(pendingIntent)
-                .SetContentTitle("Judul")
+                .SetContentTitle("Sirene Tsunami")
                 .SetContentText("Test")
                 .SetAutoCancel(true)
                 .SetStyle(bigStyle)
@@ -62,7 +71,7 @@ namespace MobileBMKG.Droid
                 builder.SetVisibility(NotificationCompat.VisibilityPublic);
             }
 
-            Intent intent = new Intent(Intent.ActionView,Android.Net.Uri.Parse("https://www.journaldev.com/15126/swift-function"));
+            Intent intent = new Intent(Intent.ActionView,Android.Net.Uri.Parse("http://inatews.bmkg.go.id/terkini.php"));
             PendingIntent pendingIntent = PendingIntent.GetActivity(context, 0, intent, 0);
 
             Intent buttonIntent = new Intent(context,typeof(MainActivity));
@@ -71,11 +80,7 @@ namespace MobileBMKG.Droid
 
         builder.AddAction(Resource.Drawable.abc_ic_menu_overflow_material, "VIEW", pendingIntent);
         builder.AddAction(Resource.Drawable.abc_ic_menu_cut_mtrl_alpha, "DISMISS", dismissIntent);
-
-            
             NotificationManager notificationManager =context.GetSystemService(Context.NotificationService) as NotificationManager;
-
-
             try
             {
                 Ringtone r = RingtoneManager.GetRingtone(MainActivity.Instance, soundUri);

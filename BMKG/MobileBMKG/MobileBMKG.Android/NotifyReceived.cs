@@ -17,12 +17,12 @@ namespace MobileBMKG.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
+         /*   base.OnCreate(savedInstanceState);
             AlarmManager manager = (AlarmManager)GetSystemService(Context.AlarmService);
            Intent myIntent = new Intent(this, typeof(NotifyBroadcastReceived));
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(this, 0, myIntent, PendingIntentFlags.UpdateCurrent);
             myIntent.SetFlags(ActivityFlags.ClearTop);
-            manager.SetRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 3000, 60 * 1000, pendingIntent);
+            manager.Set(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 1000, pendingIntent);*/
         }
 
     }

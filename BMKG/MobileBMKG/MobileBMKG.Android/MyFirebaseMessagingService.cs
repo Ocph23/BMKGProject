@@ -21,7 +21,6 @@ namespace MobileBMKG.Droid
     {
         global::Android.Net.Uri soundUri = global::Android.Net.Uri.Parse("android.resource://" + "com.ocph23.bmkg" + "/raw/alarm");
 
-
         public override void OnCreate()
         {
             base.OnCreate();
@@ -33,23 +32,72 @@ namespace MobileBMKG.Droid
                 //Intent myIntent = new Intent(this, typeof(NotifyReceived));
                 //myIntent.SetFlags(ActivityFlags.NewTask);
                 //StartActivity(myIntent);
-
                 AlarmManager manager = (AlarmManager)GetSystemService(Context.AlarmService);
                 Intent myIntent = new Intent(this, typeof(NotifyBroadcastReceived));
                 PendingIntent pendingIntent = PendingIntent.GetBroadcast(this, 0, myIntent, PendingIntentFlags.UpdateCurrent);
                 myIntent.SetFlags(ActivityFlags.ClearTop);
-                manager.SetRepeating(AlarmType.RtcWakeup, SystemClock.ElapsedRealtime() + 3000, 60 * 1000, pendingIntent);
+                manager.Set(AlarmType.RtcWakeup, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pendingIntent);
+            }
+        }
 
 
+        private async void displayAlert(Context context, Intent intentx)
+        {
 
+            var bigStyle = new NotificationCompat.BigTextStyle().BigText("Telah Terjadi Tsunami ");
+            // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
+            const int pendingIntentId = 0;
+            // PendingIntent pendingIntent =  PendingIntent.GetActivity(this, pendingIntentId, intent, PendingIntentFlags.OneShot);
+
+            // Instantiate the builder and set notification elements, including pending intent:
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
+                //  .SetContentIntent(pendingIntent)
+                .SetContentTitle("Sirene Tsunami")
+                .SetContentText("Test")
+                .SetAutoCancel(true)
+                .SetStyle(bigStyle)
+                .SetPriority(NotificationCompat.PriorityHigh)
+                .SetSmallIcon(Resource.Drawable.xamarin_logo);
+
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop)
+            {
+                builder.SetVisibility(NotificationCompat.VisibilityPublic);
             }
 
+            Intent intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("http://inatews.bmkg.go.id/terkini.php"));
+            PendingIntent pendingIntent = PendingIntent.GetActivity(context, 0, intent, 0);
+
+            Intent buttonIntent = new Intent(context, typeof(MainActivity));
+            //buttonIntent.putExtra("notificationId", NOTIFICATION_ID);
+            PendingIntent dismissIntent = PendingIntent.GetBroadcast(context, 0, buttonIntent, 0);
+
+            builder.AddAction(Resource.Drawable.abc_ic_menu_overflow_material, "VIEW", pendingIntent);
+            builder.AddAction(Resource.Drawable.abc_ic_menu_cut_mtrl_alpha, "DISMISS", dismissIntent);
+            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            try
+            {
+                Ringtone r = RingtoneManager.GetRingtone(MainActivity.Instance, soundUri);
+                r.Play();
+            }
+            catch (Exception e)
+            {
+                Log.Debug("Service", e.Data.ToString());
+            }
+
+
+            notificationManager.Notify(MainActivity.NOTIFICATION_ID, builder.Build());
+
         }
-                       
+
 
         public override void OnMessageReceived(RemoteMessage message)
         {
+            foreach (var item in message.Data)
+            {
+
+            }
             base.OnMessageReceived(message);
+          
             //SendNotification(message.GetNotification().Title, message.GetNotification().Body,message.Data);
 
         }

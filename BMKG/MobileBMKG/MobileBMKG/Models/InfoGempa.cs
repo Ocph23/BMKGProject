@@ -38,6 +38,10 @@ namespace MobileBMKG.Models
         [XmlElement("Jam")]
         public string Jam { get; set; }
 
+
+       
+
+
         [XmlElement("Lintang")]
         public string Lintang
         {
@@ -165,6 +169,25 @@ namespace MobileBMKG.Models
         public string LastUpdatedBy { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        public string Peta
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("https://ews.bmkg.go.id/TEWS/data/");
+                var t = Tanggal.Split('/');
+                sb.Append($"{t[2]}{t[1]}{t[0]}");
+                var js = Jam.Split(' ');
+                var j = js[0].Split(':');
+                for (var i = 0; i < 3; i++)
+                {
+                    sb.Append(j[i]);
+                }
+                sb.Append(".mmi.jpg");
+                return sb.ToString();
+            }
+        }
     }
 
 

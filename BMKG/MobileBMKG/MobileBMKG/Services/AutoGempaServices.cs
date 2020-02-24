@@ -18,7 +18,7 @@ namespace MobileBMKG.Services
             var autoGempa = await GetData<InfoGempa>("http://data.bmkg.go.id/autogempa.xml");
             return autoGempa.Gempa.FirstOrDefault();
         }
-        public async Task<Gempa> GempaDirasakanAsync()
+        public async Task<Gempa> LastGempaDirasakanAsync()
         {
             var last = await GetData<InfoGempa>("http://data.bmkg.go.id/lastgempadirasakan.xml");
             if (last != null)

@@ -17,7 +17,7 @@ namespace MobileBMKG.Droid
 
         public void PlaySound()
         {
-            _mediaPlayer = MediaPlayer.Create(Android.App.Application.Context, Resource.Raw.alarm);
+            _mediaPlayer = MediaPlayer.Create(Android.App.Application.Context, Resource.Raw.tsunami);
             _mediaPlayer.Start();
         }
     }

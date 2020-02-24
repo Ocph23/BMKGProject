@@ -8,7 +8,7 @@ namespace MobileBMKG.Services
     public interface IDataStore<T>
     {
         Task<T> GetAutoGempaAsync();
-        Task<T> GempaDirasakanAsync();
+        Task<T> LastGempaDirasakanAsync();
         Task<List<T>> GetGempaTerkiniAsync();
         Task<List<T>> GetGempaDirasakanAsync();
         Task<Infotsunami> GetLastTsunamiAsync();

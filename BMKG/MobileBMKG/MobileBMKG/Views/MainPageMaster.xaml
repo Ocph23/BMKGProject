@@ -24,8 +24,8 @@
           <Label
               Grid.Column="1"
               Grid.Row="2"
-              Text="AppName"
-              Style="{DynamicResource SubtitleStyle}"/>
+              Text="Sirine Tsunami" HorizontalOptions="Center"
+              Style="{DynamicResource SubtitleStyle}" FontSize="16"/>
         </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>

@@ -34,7 +34,7 @@ namespace MobileBMKG.Views
                 MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
                 {
                     new MainPageMenuItem { Id = 0, Title = "Home", TargetType = typeof(Home) },
-                    new MainPageMenuItem { Id = 1, Title = "Gempa Dirasakan" },
+                    new MainPageMenuItem { Id = 1, Title = "Gempa Dirasakan", TargetType=typeof(Dirasakan) },
                    
                 });
             }

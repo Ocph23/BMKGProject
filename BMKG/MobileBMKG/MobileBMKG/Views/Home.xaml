@@ -22,17 +22,17 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Text="LAST EARTHQUAKE" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="GEMPA TERAKHIR" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <StackLayout Grid.Row="1">
                         <ffimageloading:CachedImage HorizontalOptions="Center" VerticalOptions="Center"
-			            Aspect="AspectFit" WidthRequest="300" HeightRequest="200"
+			            Aspect="Fill" WidthRequest="400" HeightRequest="200"
 			            DownsampleToViewSize="true"
-			           Source = "http://data.bmkg.go.id/eqmap.gif">   
+			           Source = "{Binding DataGempa.Peta}">   
                         </ffimageloading:CachedImage>
                     </StackLayout>
                     <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                         <Image Source="magnitude.png" Aspect="AspectFit" WidthRequest="50"/>
-                        <Label Text="{Binding DataGempa.Magnitude}"/>
+                        <Label Text="{Binding DataGempa.Magnitude}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
                         <Label Text="Scala Richter"/>
                     </StackLayout>
                     
@@ -51,16 +51,13 @@
                             <Label Margin="35,0" Text="{Binding DataGempa.Tanggal}"/>
                             <Label Margin="35,0" Text="{Binding DataGempa.Jam}"/>
                         </StackLayout>
-
                         <StackLayout>
                             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                 <Image WidthRequest="30"  Source="location.png"/>
                                 <Label FontSize="18" FontAttributes="Bold" Text="Location"/>
                             </StackLayout>
-                            <Label Margin="35,0" Text="{Binding DataGempa.Wilayah1}"/>
+                            <Label Margin="35,0" Text="{Binding DataGempa.Keterangan[0]}"/>
                         </StackLayout>
-
-
                     </StackLayout>
                     <StackLayout Spacing="40" Grid.Column="1">
                         <StackLayout HorizontalOptions="End">
